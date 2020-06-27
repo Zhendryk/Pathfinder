@@ -2,7 +2,6 @@
   width: 30px;
   height: 0;
   padding-bottom: 30px;
-  /* outline: 1px solid rgba(50, 50, 50, 0.349); */
   background-color: white;
 }
 
@@ -11,6 +10,7 @@
   background-image: url("../assets/start.png");
   background-repeat: no-repeat;
   background-size: contain;
+  animation: placeCell 0.3s linear 0s 1;
 }
 
 .goal-cell {
@@ -18,6 +18,7 @@
   background-image: url("../assets/goal.png");
   background-repeat: no-repeat;
   background-size: contain;
+  animation: placeCell 0.3s linear 0s 1;
 }
 
 .weighted-cell {
@@ -25,41 +26,66 @@
   background-image: url("../assets/weight.png");
   background-repeat: no-repeat;
   background-size: contain;
+  animation: placeCell 0.3s linear 0s 1;
 }
 
 .wall-cell {
   background-color: black;
+  animation: placeCell 0.3s linear 0s 1;
 }
 
 .visited {
   background-color: blue;
-  animation: visitAnimation 1.5s ease-out 0s alternate 1 forwards running;
+  animation: visitAnimation 1s ease-out 0s alternate 1;
 }
 
 .route {
   background-color: yellow;
-  animation: routeAnimation 1.5s ease-out 0s alternate 1 forwards running;
+  animation: routeAnimation 1s ease-out 0s alternate 1;
+}
+
+@keyframes placeCell {
+  0% {
+    transform: scale(0.5);
+    border-radius: 100%;
+  }
+  75% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 @keyframes visitAnimation {
   0% {
+    transform: scale(0.5);
   }
   50% {
-    background-color: red;
+    background-color: purple;
+  }
+  75% {
+    transform: scale(1.2);
   }
   100% {
+    transform: scale(1);
     background-color: blue;
   }
 }
 
 @keyframes routeAnimation {
   0% {
+    transform: scale(0.5);
     background-color: brown;
   }
   50% {
-    background-color: #7cfc00;
+    background-color: chartreuse;
+  }
+  75% {
+    transform: scale(1.5);
   }
   100% {
+    transform: scale(1);
     background-color: yellow;
   }
 }

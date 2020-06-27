@@ -27,7 +27,6 @@ export default function GridCell(props) {
       id={props.data.id}
       onMouseDown={() => props.onMouseDown(props.data.row, props.data.col)}
       onMouseEnter={() => props.onMouseEnter(props.data.row, props.data.col)}
-      onMouseUp={() => props.onMouseUp()}
     ></div>
   );
 }
@@ -36,12 +35,10 @@ GridCell.propTypes = {
   data: PropTypes.instanceOf(CellData),
   onMouseDown: PropTypes.func,
   onMouseEnter: PropTypes.func,
-  onMouseUp: PropTypes.func,
 };
 
 GridCell.defaultProps = {
   data: new CellData(),
   onMouseDown: () => void 0,
   onMouseEnter: () => void 0,
-  onMouseUp: () => void 0,
 };

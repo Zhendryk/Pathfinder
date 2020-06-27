@@ -23,7 +23,8 @@ export default function Grid(props) {
   GridContainer.defaultProps = {
     totalWidthPixels:
       props.cells[0].length * 30 +
-      (props.cells[0].length - 2) * 1 /* Num columns * widthpx of each */,
+      (props.cells[0].length - 2) *
+        1 /* (NumCols * colWidth) + (NumInternalCols * ColGap) */,
     cellsPerRow: props.cells.length,
     cellsPerCol: props.cells[0].length,
     cellHeightPixels: 30,
@@ -37,7 +38,6 @@ export default function Grid(props) {
             data={cellData}
             onMouseDown={props.onMouseDown}
             onMouseEnter={props.onMouseEnter}
-            onMouseUp={props.onMouseUp}
           />
         ));
       })}
@@ -49,12 +49,10 @@ Grid.propTypes = {
   cells: PropTypes.array,
   onMouseDown: PropTypes.func,
   onMouseEnter: PropTypes.func,
-  onMouseUp: PropTypes.func,
 };
 
 Grid.defaultProps = {
   cells: [],
   onMouseDown: () => void 0,
   onMouseEnter: () => void 0,
-  onMouseUp: () => void 0,
 };
