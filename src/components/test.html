@@ -1,0 +1,30 @@
+<div class="grid">
+  <div class="cell"></div>
+  <div class="cell"></div>
+  <div class="cell"></div>
+  <div class="cell"></div>
+  <div class="cell"></div>
+  <div class="cell"></div>
+  <div class="cell"></div>
+  <div class="cell"></div>
+  <div class="cell"></div>
+</div>
+
+<style type="text/css">
+  .grid {
+    display: grid;
+    gap: 1px 1px;
+    width: 92px; /* 90 + 2 * 1px margin for cells on ends */
+    grid-template-rows: repeat(3, 30px);
+    grid-template-columns: repeat(3, 30px);
+    background-color: yellow;
+    padding: 2px;
+  }
+
+  .cell {
+    width: 30px;
+    height: 0;
+    padding-bottom: 30px;
+    background-color: black;
+  }
+</style>

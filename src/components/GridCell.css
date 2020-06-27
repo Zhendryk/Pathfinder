@@ -1,0 +1,65 @@
+.grid-cell {
+  width: 30px;
+  height: 0;
+  padding-bottom: 30px;
+  /* outline: 1px solid rgba(50, 50, 50, 0.349); */
+  background-color: white;
+}
+
+.start-cell {
+  background-color: #7cfc00;
+  background-image: url("../assets/start.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.goal-cell {
+  background-color: #ff6347;
+  background-image: url("../assets/goal.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.weighted-cell {
+  background-color: #a9a9a9;
+  background-image: url("../assets/weight.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.wall-cell {
+  background-color: black;
+}
+
+.visited {
+  background-color: blue;
+  animation: visitAnimation 1.5s ease-out 0s alternate 1 forwards running;
+}
+
+.route {
+  background-color: yellow;
+  animation: routeAnimation 1.5s ease-out 0s alternate 1 forwards running;
+}
+
+@keyframes visitAnimation {
+  0% {
+  }
+  50% {
+    background-color: red;
+  }
+  100% {
+    background-color: blue;
+  }
+}
+
+@keyframes routeAnimation {
+  0% {
+    background-color: brown;
+  }
+  50% {
+    background-color: #7cfc00;
+  }
+  100% {
+    background-color: yellow;
+  }
+}
