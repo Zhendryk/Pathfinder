@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Grid from './Grid';
-import GridData from '../datastructures/GridData';
-import { CellType } from '../datastructures/CellData'
+import { CellType, CellData } from '../datastructures/CellData'
 
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
@@ -15,43 +14,96 @@ const PlacementMode = {
     WEIGHTED: 3,
 }
 
-
-const delayLoop = (fn, delay) => {
-    return (x, i) => {
-        setTimeout(() => {
-            fn(x);
-        }, i * delay);
-    }
-};
-
 export default class Pathfinder extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            grid: new GridData(this.props.gridRows, this.props.gridColumns),
-            placementMode: PlacementMode.BARRIER
+            grid: this.getInitialGrid(),
+            // grid: new GridData(this.props.gridRows, this.props.gridColumns),
+            placementMode: PlacementMode.BARRIER,
+            mouseIsDown: false
         }
-        this.onCellClick = this.onCellClick.bind(this);
-        this.updateCell = this.updateCell.bind(this);
-        this.onClickPlaceStart = this.onClickPlaceStart.bind(this);
-        this.onClickPlaceGoal = this.onClickPlaceGoal.bind(this);
-        this.onClickPlaceWeight = this.onClickPlaceWeight.bind(this);
-        this.animateAStar = this.animateAStar.bind(this);
     }
 
-    animateAStar() {
-        var result = a_star(this.state.grid, this.state.grid.start, this.state.grid.goal);
-        const updatesInOrder = result[0].concat(result[1]);
-
-        updatesInOrder.forEach((updatedNode, i) => {
-            if (updatedNode.id !== this.state.grid.start.id && updatedNode.id !== this.state.grid.goal.id) {
-                this.updateCell(updatedNode);
+    getInitialGrid = () => {
+        const grid = [];
+        for(let row = 0; row < this.props.gridRows; row++) {
+            const curRow = [];
+            for(let col = 0; col < this.props.gridColumns; col++) {
+                curRow.push(new CellData())
             }
-        });
+            grid.push(curRow);
+        }
+        return grid;
     }
 
-    updateCell(newData) {
+    onClickPlaceStart = () => {
+        this.setState(state => ({
+            ...state,
+            placementMode: PlacementMode.START
+        }));
+    }
+
+    onClickPlaceGoal = () => {
+        this.setState(state => ({
+            ...state,
+            placementMode: PlacementMode.GOAL
+        }));
+    }
+
+    onClickPlaceWeight = () => {
+        this.setState(state => ({
+            ...state,
+            placementMode: PlacementMode.WEIGHTED
+        }));
+    }
+
+    cellTypeForCurrentPlacementMode = () => {
+        switch (this.state.placementMode) {
+            case PlacementMode.START:
+                return CellType.START;
+            case PlacementMode.GOAL:
+                return CellType.GOAL;
+            case PlacementMode.WEIGHTED:
+                return CellType.WEIGHTED;
+            case PlacementMode.BARRIER:
+            default:
+                return CellType.BARRIER;
+        }
+    }
+
+    placeCellAndGetResultingGrid = (row, col) => {
+        // let newGrid = { ...this.state.grid }; // Deep copy
+        let newGrid = this.state.grid.slice();
+        newGrid[row][col] = newGrid[row][col].asType(this.cellTypeForCurrentPlacementMode());
+        return newGrid;
+
+    }
+
+    handleMouseDown = (row, col) => {
+        const newGrid = this.placeCellAndGetResultingGrid(row, col);
+        this.setState(state => ({
+            ...state,
+            grid: newGrid,
+            mouseIsDown: true
+        }))
+    }
+
+    handleMouseEnter = (row, col) => {
+        if (!this.state.mouseIsDown) return;
+        const newGrid = this.placeCellAndGetResultingGrid(row, col);
+        this.setState(state => ({
+            ...state,
+            grid: newGrid
+        }))
+    }
+
+    handleMouseUp = () => {
+        this.setState({ mouseIsDown: false })
+    }
+
+    updateCell = (newData) => {
         const newGrid = { ...this.state.grid };
         const dataToChange = newGrid.cells[newData.row][newData.col];
         newGrid.cells[newData.row][newData.col] = dataToChange.toType(newData.type);
@@ -61,66 +113,16 @@ export default class Pathfinder extends React.Component {
         }))
     }
 
-    handleMouseDown() {
-
-    }
-
-    onCellClick(cellData) {
-        var nextType = undefined;
-        const newGrid = this.state.grid;
-        switch (this.state.placementMode) {
-            case PlacementMode.START:
-                nextType = CellType.START;
-                newGrid.start = newGrid.cells[cellData.row][cellData.col];
-                break;
-            case PlacementMode.GOAL:
-                nextType = CellType.GOAL;
-                newGrid.goal = newGrid.cells[cellData.row][cellData.col];
-                break;
-            case PlacementMode.WEIGHTED:
-                nextType = CellType.WEIGHTED;
-                break;
-            case PlacementMode.BARRIER:
-            default:
-                nextType = CellType.BARRIER;
-        }
-        const dataToChange = newGrid.cells[cellData.row][cellData.col];
-        newGrid.cells[cellData.row][cellData.col] = dataToChange.toType(nextType);
-        this.setState(state => ({
-            grid: newGrid,
-            placementMode: PlacementMode.BARRIER
-        }))
-    }
-
-    onCellMouseDown() {
-
-    }
-
-    onCellMouseEnter() {
-
-    }
-
-    onCellMouseUp() {
-
-    }
-
-    onClickPlaceStart() {
-        this.setState(state => ({
-            ...state,
-            placementMode: PlacementMode.START
-        }));
-    }
-    onClickPlaceGoal() {
-        this.setState(state => ({
-            ...state,
-            placementMode: PlacementMode.GOAL
-        }));
-    }
-    onClickPlaceWeight() {
-        this.setState(state => ({
-            ...state,
-            placementMode: PlacementMode.WEIGHTED
-        }));
+    animateAStar = () => {
+        var result = a_star(this.state.grid, this.state.grid.start, this.state.grid.goal);
+        const updatesInOrder = result[0].concat(result[1]);
+        updatesInOrder.forEach((updatedNode, i) => {
+            if (updatedNode.id !== this.state.grid.start.id && updatedNode.id !== this.state.grid.goal.id) {
+                setTimeout(() => {
+                    this.updateCell(updatedNode);
+                }, 10 * i)
+            }
+        });
     }
 
     render() {
@@ -132,7 +134,7 @@ export default class Pathfinder extends React.Component {
                     <Button onClick={this.onClickPlaceWeight}>Place Weight Node</Button>
                     <Button onClick={this.animateAStar}>Run</Button>
                 </ButtonGroup>
-                <Grid cells={this.state.grid.cells} onCellClick={this.onCellClick} />
+                <Grid cells={this.state.grid} onMouseDown={this.handleMouseDown} onMouseEnter={this.handleMouseEnter} onMouseUp={this.handleMouseUp} />
             </React.Fragment>
         );
     }

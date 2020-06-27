@@ -10,10 +10,7 @@ export const CellType = {
 }
 
 export class CellData {
-    constructor(row, col, type = CellType.STANDARD, isSelected = false, weight = 0.0) {
-        this.row = row
-        this.col = col
-        this.id = '(' + row + ', ' + col + ')'
+    constructor(type = CellType.STANDARD, isSelected = false, weight = 0.0) {
         this.type = type
         this.isSelected = isSelected
         this.visited = type === (CellType.VISITED || CellType.ADDED_TO_ROUTE) ? true : false;
@@ -32,7 +29,7 @@ export class CellData {
         }
     }
 
-    toType(newType) {
+    asType(newType) {
         return new CellData(this.row, this.col, newType, this.isSelected)
     }
 }
