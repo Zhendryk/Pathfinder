@@ -1,12 +1,12 @@
 export const CellType = {
-  STANDARD: 0,
-  START: 1,
-  GOAL: 2,
-  BARRIER: 3,
-  WEIGHTED: 4,
-  VISITED: 5,
-  ADDED_TO_ROUTE: 6,
-  NUM_CELLTYPES: 7,
+  STANDARD: "grid-cell",
+  START: "start-cell",
+  GOAL: "goal-cell",
+  BARRIER: "wall-cell",
+  WEIGHTED: "weighted-cell",
+  VISITED: "visited",
+  ADDED_TO_ROUTE: "route",
+  NUM_CELLTYPES: "7",
 };
 
 export class CellData {

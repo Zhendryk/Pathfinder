@@ -6,7 +6,7 @@ import GridCell from "./GridCell";
 const GridContainer = styled.div`
   display: grid;
   gap: 1px 1px;
-  width: ${(props) => props.totalWidthPixels + 2}px;
+  width: ${(props) => props.totalWidthPixels + 1}px;
   grid-template-rows: repeat(
     ${(props) => props.cellsPerRow},
     ${(props) => props.cellHeightPixels}px
