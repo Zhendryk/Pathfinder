@@ -10,26 +10,14 @@ export const CellType = {
 };
 
 export class CellData {
-  constructor(
-    row,
-    col,
-    type = CellType.STANDARD,
-    isSelected = false,
-    weight = 0.0
-  ) {
+  constructor(row, col, type = CellType.STANDARD, isSelected = false, weight = 0.0) {
     this.row = row;
     this.col = col;
     this.id = `cell_${row}_${col}`;
     this.type = type;
     this.isSelected = isSelected;
-    this.visited =
-      type === (CellType.VISITED || CellType.ADDED_TO_ROUTE) ? true : false;
-    this.weight =
-      type === CellType.WEIGHTED
-        ? weight
-        : type === CellType.BARRIER
-        ? Infinity
-        : 0;
+    this.visited = type === (CellType.VISITED || CellType.ADDED_TO_ROUTE) ? true : false;
+    this.weight = type === CellType.WEIGHTED ? weight : type === CellType.BARRIER ? Infinity : 0;
   }
 
   asType(newType) {

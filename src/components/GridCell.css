@@ -17,7 +17,7 @@
   animation-iteration-count: 1;
   animation-direction: alternate;
   animation-play-state: running;
-  animation-timing-function: linear;
+  animation-timing-function: ease-out;
 }
 
 .goal-cell {
@@ -32,7 +32,7 @@
   animation-iteration-count: 1;
   animation-direction: alternate;
   animation-play-state: running;
-  animation-timing-function: linear;
+  animation-timing-function: ease-out;
 }
 
 .weighted-cell {
@@ -47,7 +47,7 @@
   animation-iteration-count: 1;
   animation-direction: alternate;
   animation-play-state: running;
-  animation-timing-function: linear;
+  animation-timing-function: ease-out;
 }
 
 .wall-cell {
@@ -59,7 +59,7 @@
   animation-iteration-count: 1;
   animation-direction: alternate;
   animation-play-state: running;
-  animation-timing-function: linear;
+  animation-timing-function: ease-out;
 }
 
 .visited {
@@ -71,7 +71,7 @@
   animation-iteration-count: 1;
   animation-direction: alternate;
   animation-play-state: running;
-  animation-timing-function: linear;
+  animation-timing-function: ease-out;
 }
 
 .route {

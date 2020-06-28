@@ -1,10 +1,3 @@
-export const PlacementMode = {
-  BARRIER: 0,
-  START: 1,
-  GOAL: 2,
-  WEIGHTED: 3,
-};
-
 export const Algorithm = {
   ASTAR_8: "A* (8-Connectivity)",
   ASTAR_4: "A* (4-Connectivity)",

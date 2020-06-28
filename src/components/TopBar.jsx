@@ -5,19 +5,8 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
-import { makeStyles, Theme } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import { Algorithm } from "./enums";
-
-// export default function TopBar(props) {
-//   return (
-//     <ButtonGroup color="primary" aria-label="outlined primary button group">
-//       <Button onClick={props.onClickPlaceStart}>Place Start Node</Button>
-//       <Button onClick={props.onClickPlaceGoal}>Place Goal Node</Button>
-//       <Button onClick={props.onClickPlaceWeight}>Place Weight Node</Button>
-//       <Button onClick={props.animateAStar}>Run</Button>
-//     </ButtonGroup>
-//   );
-// }
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -38,7 +27,6 @@ const useStyles = makeStyles((theme) => ({
     height: 35,
     marginLeft: "5px",
     marginRight: "5px",
-    padding: "0 25px",
     border: 0,
     borderRadius: 3,
     color: theme.palette.primary.contrastText,
@@ -75,31 +63,16 @@ export default function TopBar(props) {
           Pathfinder
         </Typography>
         <div className={classes.itemContainer}>
-          <Button
-            className={classes.menu}
-            aria-controls="algorithms-menu"
-            aria-haspopup="true"
-            onClick={handleClick}
-          >
+          <Button className={classes.menu} aria-controls="algorithms-menu" aria-haspopup="true" onClick={handleClick}>
             Algorithms
           </Button>
-          <Menu
-            id="algorithms-menu"
-            anchorEl={anchorEl}
-            keepMounted
-            open={Boolean(anchorEl)}
-            onClose={handleClose}
-          >
-            <MenuItem onClick={() => handleAlgoSelection(Algorithm.ASTAR_8)}>
-              {Algorithm.ASTAR_8}
-            </MenuItem>
-            <MenuItem onClick={() => handleAlgoSelection(Algorithm.ASTAR_4)}>
-              {Algorithm.ASTAR_4}
-            </MenuItem>
-            <MenuItem onClick={() => handleAlgoSelection(Algorithm.DIJIKSTRA)}>
-              {Algorithm.DIJIKSTRA}
-            </MenuItem>
-            <MenuItem
+          <Menu id="algorithms-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
+            <MenuItem onClick={() => handleAlgoSelection(Algorithm.ASTAR_8)}>{Algorithm.ASTAR_8}</MenuItem>
+            <MenuItem onClick={() => handleAlgoSelection(Algorithm.ASTAR_4)}>{Algorithm.ASTAR_4}</MenuItem>
+            <MenuItem onClick={() => handleAlgoSelection(Algorithm.DIJIKSTRA)}>{Algorithm.DIJIKSTRA}</MenuItem>
+            <MenuItem onClick={() => handleAlgoSelection(Algorithm.DFS)}>{Algorithm.DFS}</MenuItem>
+            <MenuItem onClick={() => handleAlgoSelection(Algorithm.BFS)}>{Algorithm.BFS}</MenuItem>
+            {/* <MenuItem
               onClick={() => handleAlgoSelection(Algorithm.GREEDY_BEST_FS)}
             >
               {Algorithm.GREEDY_BEST_FS}
@@ -116,23 +89,17 @@ export default function TopBar(props) {
               onClick={() => handleAlgoSelection(Algorithm.BIDIRECTIONAL_SWARM)}
             >
               {Algorithm.BIDIRECTIONAL_SWARM}
-            </MenuItem>
-            <MenuItem onClick={() => handleAlgoSelection(Algorithm.DFS)}>
-              {Algorithm.DFS}
-            </MenuItem>
-            <MenuItem onClick={() => handleAlgoSelection(Algorithm.BFS)}>
-              {Algorithm.BFS}
-            </MenuItem>
+            </MenuItem> */}
           </Menu>
         </div>
         <div className={classes.itemContainer}>
           <Button className={classes.btn} onClick={() => props.clearGrid()}>
             Clear Grid
           </Button>
-          <Button
-            className={`${classes.btn} ${classes.runBtn}`}
-            onClick={props.runAnimatedAlgo}
-          >
+          {/* <Button className={classes.btn} onClick={() => props.genMaze()}>
+            Generate Maze
+          </Button> */}
+          <Button className={`${classes.btn} ${classes.runBtn}`} onClick={props.runAnimatedAlgo}>
             {`Run ${props.selectedAlgoName}`}
           </Button>
         </div>
