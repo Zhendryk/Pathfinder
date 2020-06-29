@@ -1,26 +1,6 @@
 import Queue from "../datastructures/Queue";
 import { CellType } from "../datastructures/CellData";
-
-function get_neighbors(grid, node) {
-  let neighbors = [];
-  if (node.row > 0 && !grid[node.row - 1][node.col].visited && grid[node.row - 1][node.col].type !== CellType.BARRIER) {
-    neighbors.unshift(grid[node.row - 1][node.col]); // N
-    grid[node.row - 1][node.col].visited = true;
-  }
-  if (node.row < grid.length - 1 && !grid[node.row + 1][node.col].visited && grid[node.row + 1][node.col].type !== CellType.BARRIER) {
-    neighbors.unshift(grid[node.row + 1][node.col]); // S
-    grid[node.row + 1][node.col].visited = true;
-  }
-  if (node.col > 0 && !grid[node.row][node.col - 1].visited && grid[node.row][node.col - 1].type !== CellType.BARRIER) {
-    neighbors.unshift(grid[node.row][node.col - 1]); // W
-    grid[node.row][node.col - 1].visited = true;
-  }
-  if (node.col < grid[0].length - 1 && !grid[node.row][node.col + 1].visited && grid[node.row][node.col + 1].type !== CellType.BARRIER) {
-    neighbors.unshift(grid[node.row][node.col + 1]); // E
-    grid[node.row][node.col + 1].visited = true;
-  }
-  return [neighbors, grid];
-}
+import { get_neighbors, mark_neighbors_visited } from "./util";
 
 function reconstructPath(cameFrom, current, start) {
   const total_path = [];
@@ -47,9 +27,8 @@ export default function bfs(grid, start, goal) {
     if (current.id === goal.id) {
       return [visitedNodes, reconstructPath(cameFrom, current, start)];
     }
-    let result = get_neighbors(grid, current, false);
-    const neighbors = result[0];
-    grid = result[1];
+    const neighbors = get_neighbors(grid, current, false);
+    grid = mark_neighbors_visited(neighbors, grid);
     for (let i = 0; i < neighbors.length; i++) {
       const neighbor = neighbors[i];
       cameFrom[neighbor.id] = current;

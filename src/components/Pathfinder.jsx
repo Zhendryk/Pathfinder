@@ -9,7 +9,7 @@ import a_star from "../algorithms/astar";
 import dijikstra from "../algorithms/dijikstra";
 import bfs from "../algorithms/bfs";
 import dfs from "../algorithms/dfs";
-import randomized_prims from "../algorithms/randomized_prims";
+import recursive_division_maze from "../algorithms/recursive_division_maze";
 
 let Pathfinder = (props) => {
   const DEFAULT_START_ROW = Math.round(props.gridRows / 2.0);
@@ -67,15 +67,20 @@ let Pathfinder = (props) => {
   };
 
   const genMaze = () => {
-    const wallsToAnimate = randomized_prims(props.gridRows, props.gridColumns, startCell, goalCell);
+    const wallsToAnimate = recursive_division_maze(props.gridRows, props.gridColumns, startCell, goalCell);
     var newGrid = [];
     wallsToAnimate.forEach((mazeWall, i) => {
       newGrid = placeWallAndGetGrid(mazeWall.row, mazeWall.col);
       setTimeout(() => {
         document.getElementById(mazeWall.id).className = `grid-cell wall-cell`;
       }, 10 * i);
+      if (i + 1 === wallsToAnimate.length) {
+        setTimeout(() => {
+          setGrid(newGrid);
+          return;
+        }, 10 * i);
+      }
     });
-    setGrid(newGrid);
   };
 
   const placeWallAndGetGrid = (row, col) => {
@@ -105,6 +110,7 @@ let Pathfinder = (props) => {
 
   const handleMouseEnter = (row, col) => {
     if (!mouseIsDown) return;
+    if (grid[row][col].type === CellType.START || grid[row][col].type === CellType.GOAL) return;
     if (draggingCell) {
       setDraggedTo([row, col]);
       const newGrid = dragCellAndGetGrid(

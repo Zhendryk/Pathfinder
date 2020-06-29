@@ -1,6 +1,6 @@
-import { get_neighbors } from "./util";
 import PriorityQueue from "../datastructures/PriorityQueue";
 import { CellType } from "../datastructures/CellData";
+import { get_neighbors, mark_neighbors_visited } from "./util";
 
 function reconstructPath(prev, current) {
   const total_path = [];
@@ -38,9 +38,8 @@ export default function dijikstra(grid, start, goal) {
     if (current.id === goal.id) {
       return [visitedNodes, reconstructPath(prev, current)];
     }
-    var result = get_neighbors(grid, current, false);
-    var neighbors = result[0];
-    grid = result[1];
+    const neighbors = get_neighbors(grid, current, false);
+    grid = mark_neighbors_visited(neighbors, grid);
     for (let i = 0; i < neighbors.length; i++) {
       const neighbor = neighbors[i];
       const alt = dist[current.id] + neighbor.weight;

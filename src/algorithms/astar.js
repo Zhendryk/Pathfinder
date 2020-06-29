@@ -1,5 +1,5 @@
 import PriorityQueue from "../datastructures/PriorityQueue";
-import { get_neighbors, euclidean_distance } from "./util";
+import { get_neighbors, mark_neighbors_visited, euclidean_distance } from "./util";
 import { CellType } from "../datastructures/CellData";
 
 function reconstruct_path(cameFrom, current, start) {
@@ -34,9 +34,8 @@ export default function a_star(grid, start, goal, search_corners = true) {
     if (current.id === goal.id) {
       return [visitedNodes, reconstruct_path(cameFrom, current, start)]; // Returns all nodes visited (in order) as well as the path from start to goal (in order) for animation purposes
     }
-    var result = get_neighbors(grid, current, search_corners);
-    var neighbors = result[0];
-    grid = result[1];
+    const neighbors = get_neighbors(grid, current, search_corners);
+    grid = mark_neighbors_visited(neighbors, grid);
     for (var i = 0; i < neighbors.length; i++) {
       var neighbor = neighbors[i];
       var tentative_gscore = gscore[current.id] + euclidean_distance(current.col, current.row, neighbor.col, neighbor.row);
